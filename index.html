@@ -10,15 +10,14 @@
             --gold: #d4af37;
             --gold-grad: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238);
             --dark: #000;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glow: 0 0 20px rgba(212, 175, 55, 0.6);
+            --glow: 0 0 25px rgba(212, 175, 55, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* ✨ CINEMATIC CANVAS BACKGROUND */
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%); }
+        /* ✨ CINEMATIC CANVAS */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 50% 50%, #151515 0%, #000 100%); }
 
         /* 🎭 3D SCENE */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 2500px; }
@@ -33,11 +32,11 @@
         .envelope-base { 
             width: 100%; height: 100%; background: #0c0c0c; 
             border: 1.5px solid rgba(212, 175, 55, 0.4); position: relative;
-            box-shadow: 0 50px 100px rgba(0,0,0,1), inset 0 0 40px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 50px 120px rgba(0,0,0,1);
         }
 
         .flap {
-            position: absolute; top: 0; width: 100%; height: 100%; background: #151515;
+            position: absolute; top: 0; width: 100%; height: 100%; background: #1a1a1a;
             clip-path: polygon(0 0, 100% 0, 50% 55%); z-index: 5;
             transform-origin: top; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             border-top: 2px solid var(--gold);
@@ -51,7 +50,7 @@
             border: 2.5px solid var(--gold); box-shadow: var(--glow);
             transition: 0.6s ease; font-size: 38px;
         }
-        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -180%) scale(0.3); pointer-events: none; }
+        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -180%) scale(0.2); }
 
         /* 📜 THE PREMIUM CARD */
         .card {
@@ -60,48 +59,45 @@
                               linear-gradient(135deg, #ffffff 0%, #f4e8d1 100%);
             padding: 30px; text-align: center; color: #1a1a1a; z-index: 2;
             transition: 1.6s cubic-bezier(0.19, 1, 0.22, 1);
-            border: 1px solid rgba(212, 175, 55, 0.1);
         }
         .is-open .card { 
-            transform: translateY(-420px) scale(1.15); height: 570px; 
-            z-index: 10; box-shadow: 0 70px 180px rgba(0,0,0,1);
-            border: 1.5px solid var(--gold);
+            transform: translateY(-420px) scale(1.15); height: 580px; 
+            z-index: 10; box-shadow: 0 70px 200px rgba(0,0,0,1);
+            border: 2px solid var(--gold);
         }
 
         .card h2 { 
             font-family: 'Great Vibes', cursive; font-size: 54px; 
             background: var(--gold-grad); -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; margin: 25px 0;
-            animation: textPulse 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(212,175,55,0.3));
         }
-        @keyframes textPulse { 0%, 100% { filter: drop-shadow(0 0 2px rgba(212,175,55,0.2)); } 50% { filter: drop-shadow(0 0 8px rgba(212,175,55,0.6)); } }
 
-        /* ⏳ ELITE TIMER */
+        /* ⏳ ELITE BACKWARDS TIMER */
         .details-section { padding: 100px 20px; text-align: center; opacity: 0; transition: 3s ease; }
         .reveal { opacity: 1; }
 
         .timer { display: flex; justify-content: center; gap: 12px; margin: 45px 0; }
         .timer-box { 
-            background: var(--glass); border: 1.5px solid var(--gold); 
+            background: rgba(255,255,255,0.03); border: 1.5px solid var(--gold); 
             padding: 20px; min-width: 85px; border-radius: 18px;
-            backdrop-filter: blur(25px); transition: 0.5s;
-            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.15);
+            backdrop-filter: blur(25px); transition: 0.3s;
         }
         .timer-box span { display: block; font-size: 36px; color: var(--gold); font-weight: 900; text-shadow: var(--glow); }
 
         /* 📸 SCATTER GALLERY */
-        .gallery-wrap { position: relative; height: 900px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .gallery-wrap { position: relative; height: 900px; display: flex; justify-content: center; align-items: center; }
         .photo {
             position: absolute; width: 290px; height: 410px; border: 12px solid #fff;
             box-shadow: 0 40px 80px rgba(0,0,0,1); transition: 2s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .photo img { width: 100%; height: 100%; object-fit: cover; }
 
-        .reveal .photo:nth-child(1) { transform: rotate(-12deg) translate(-120px, -70px); z-index: 1; }
+        .reveal .photo:nth-child(1) { transform: rotate(-12deg) translate(-120px, -70px); }
         .reveal .photo:nth-child(2) { transform: rotate(4deg) translate(0, 0); z-index: 3; width: 320px; height: 450px; }
-        .reveal .photo:nth-child(3) { transform: rotate(18deg) translate(120px, 70px); z-index: 2; }
+        .reveal .photo:nth-child(3) { transform: rotate(18deg) translate(120px, 70px); }
 
-        /* 📍 MAP SECTION */
+        /* 📍 MAP */
         .map-container { 
             width: 100%; height: 450px; border-radius: 45px; 
             border: 2px solid var(--gold); overflow: hidden; 
@@ -112,14 +108,19 @@
         .hint { position: absolute; bottom: 40px; color: var(--gold); font-size: 11px; letter-spacing: 8px; animation: bounce 2s infinite; text-shadow: var(--glow); }
         @keyframes bounce { 0%,100%{transform:translateY(0);opacity:0.3;} 50%{transform:translateY(-20px);opacity:1;} }
 
-        /* 💘 INTERACTIVE SPARKLES */
-        .sparkle { position: fixed; pointer-events: none; z-index: 999; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; animation: particleUp 2s forwards; }
-        @keyframes particleUp { 0%{transform:translate(0,0) scale(1); opacity:1;} 100%{transform:translate(var(--x), var(--y)) scale(0); opacity:0;} }
+        /* 👑 SCREEN BORDER GLOW */
+        .screen-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            box-shadow: inset 0 0 100px rgba(212, 175, 55, 0);
+            pointer-events: none; z-index: 100; transition: 2s;
+        }
+        .reveal-glow { box-shadow: inset 0 0 150px rgba(212, 175, 55, 0.2); }
 
     </style>
 </head>
 <body onmousemove="handleParallax(event)" ontouchmove="handleParallax(event)">
 
+<div class="screen-glow" id="main-glow"></div>
 <canvas id="bg-canvas"></canvas>
 
 <section class="hero">
@@ -128,21 +129,21 @@
             <div class="flap"></div>
             <div class="wax-seal">⚜️</div>
             <div class="card">
-                <p style="letter-spacing: 7px; font-weight: 300; font-size: 11px;">A ROYAL CELEBRATION</p>
+                <p style="letter-spacing: 7px; font-weight: 300; font-size: 11px;">TOY DƏVƏTNAMƏSİ</p>
                 <h2 id="u-names">Kamran & Leyla</h2>
                 <div style="border-top: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); padding: 20px 0; margin: 25px 0;">
                     <span id="u-date" style="font-family: 'Cinzel Decorative'; font-size: 24px; font-weight: 900; letter-spacing: 3px;">25 . 01 . 2026</span>
                 </div>
-                <p style="color: var(--gold); font-weight: 600; letter-spacing: 4px; font-size: 13px;">EŞQİN ƏBƏDİYYƏTİ</p>
+                <p style="color: var(--gold); font-weight: 600; letter-spacing: 4px; font-size: 13px;">BİR ÖMÜR BOYU...</p>
             </div>
         </div>
     </div>
-    <div class="hint" id="hint-text">DƏVƏTNAMƏNİ AÇIN</div>
+    <div class="hint" id="hint-text">TOXUNUN VƏ AÇIN</div>
 </section>
 
 <div class="details-section" id="details">
-    <h3 style="font-family: 'Cinzel Decorative'; letter-spacing: 12px; color: var(--gold); text-shadow: var(--glow);">BÖYÜK GÜNƏ</h3>
-    <div class="timer">
+    <h3 style="font-family: 'Cinzel Decorative'; letter-spacing: 12px; color: var(--gold); text-shadow: var(--glow);">TOYA QALAN ZAMAN</h3>
+    <div class="timer" id="timer-ui">
         <div class="timer-box"><span id="days">00</span>GÜN</div>
         <div class="timer-box"><span id="hours">00</span>SAAT</div>
         <div class="timer-box"><span id="mins">00</span>DƏQ</div>
@@ -156,15 +157,15 @@
     </div>
 
     <div style="padding: 70px 20px;">
-        <h3 style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 6px;">MƏRASİM YERİ</h3>
-        <p id="u-location" style="margin: 30px 0; letter-spacing: 5px; font-weight: 300; font-size: 15px; color: #ddd;">"GOLDEN PALACE" - SUMQAYIT</p>
+        <h3 style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 6px;">MƏKAN</h3>
+        <p id="u-location" style="margin: 30px 0; letter-spacing: 5px; font-weight: 300; font-size: 15px;">"GOLDEN PALACE" - SUMQAYIT</p>
         <div class="map-container">
-            <iframe src="http://googleusercontent.com/maps.google.com/5" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="http://googleusercontent.com/maps.google.com/6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </div>
 
     <div style="padding: 150px 0;">
-        <p style="font-family: 'Great Vibes'; font-size: 55px; color: var(--gold); text-shadow: var(--glow);">Təşrifinizi gözləyirik...</p>
+        <p style="font-family: 'Great Vibes'; font-size: 55px; color: var(--gold); text-shadow: var(--glow);">Gözləyirik...</p>
     </div>
 </div>
 
@@ -173,7 +174,35 @@
 </audio>
 
 <script>
-// 1. MASTER PARTICLES ENGINE
+// 1. DALA SAYAN TAYMER (Düzəldilmiş Versiya)
+const targetDate = new Date("Jan 25, 2026 18:00:00").getTime();
+
+function updateTimer() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    // Əgər toy vaxtı keçibsə sıfır göstərsin
+    if (distance < 0) {
+        document.getElementById('days').innerText = "00";
+        document.getElementById('hours').innerText = "00";
+        document.getElementById('mins').innerText = "00";
+        document.getElementById('secs').innerText = "00";
+        return;
+    }
+
+    const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').innerText = String(d).padStart(2, '0');
+    document.getElementById('hours').innerText = String(h).padStart(2, '0');
+    document.getElementById('mins').innerText = String(m).padStart(2, '0');
+    document.getElementById('secs').innerText = String(s).padStart(2, '0');
+}
+setInterval(updateTimer, 1000);
+
+// 2. CINEMATIC BACKGROUND
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -184,27 +213,20 @@ class Particle {
     reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2.5 + 0.5;
-        this.speedY = Math.random() * 0.8 + 0.2;
-        this.speedX = Math.random() * 0.4 - 0.2;
+        this.size = Math.random() * 2;
+        this.speedY = Math.random() * 0.5 + 0.2;
         this.opacity = Math.random() * 0.5;
-        this.flicker = Math.random() * 0.02;
     }
     update() {
-        this.y -= this.speedY; this.x += this.speedX;
-        this.opacity += this.flicker;
-        if (this.opacity > 0.7 || this.opacity < 0.1) this.flicker *= -1;
+        this.y -= this.speedY;
         if (this.y < -10) this.y = canvas.height + 10;
     }
     draw() {
         ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
-        ctx.shadowBlur = 4; ctx.shadowColor = "#d4af37";
         ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        ctx.shadowBlur = 0;
     }
 }
-
-for (let i = 0; i < 150; i++) particles.push(new Particle());
+for (let i = 0; i < 100; i++) particles.push(new Particle());
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => { p.update(); p.draw(); });
@@ -212,51 +234,30 @@ function animate() {
 }
 animate();
 
-// 2. PARALLAX
+// 3. PARALLAX
 function handleParallax(e) {
     if(document.getElementById('env').classList.contains('is-open')) return;
     const x = ((e.clientX || e.touches[0].clientX) / window.innerWidth) - 0.5;
     const y = ((e.clientY || e.touches[0].clientY) / window.innerHeight) - 0.5;
-    document.getElementById('env').style.transform = `rotateY(${x * 40}deg) rotateX(${-y * 40}deg)`;
+    document.getElementById('env').style.transform = `rotateY(${x * 45}deg) rotateX(${-y * 45}deg)`;
 }
 
-// 3. BURST SPARKLES ON OPEN
-function createBurst(x, y) {
-    for(let i=0; i<30; i++) {
-        const s = document.createElement('div');
-        s.className = 'sparkle';
-        s.style.left = x + 'px'; s.style.top = y + 'px';
-        s.style.setProperty('--x', (Math.random() - 0.5) * 400 + 'px');
-        s.style.setProperty('--y', (Math.random() - 0.5) * 400 + 'px');
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 2000);
-    }
-}
-
-// 4. OPEN LOGIC
+// 4. OPEN ELITE
 function openElite() {
     const env = document.getElementById('env');
     if(env.classList.contains('is-open')) return;
     env.classList.add('is-open');
-    createBurst(window.innerWidth/2, window.innerHeight/2);
-    document.getElementById('details').classList.add('reveal');
     document.getElementById('bg-music').play();
-    document.getElementById('hint-text').innerText = "GÖZƏLLİYİ KƏŞF EDİN ⬇️";
-    setTimeout(() => { window.scrollTo({ top: 700, behavior: 'smooth' }); }, 2600);
+    document.getElementById('details').classList.add('reveal');
+    document.getElementById('main-glow').classList.add('reveal-glow');
+    document.getElementById('hint-text').innerText = "SÜRÜŞDÜRÜN ⬇️";
+    setTimeout(() => { window.scrollTo({ top: 700, behavior: 'smooth' }); }, 2500);
 }
 
-// 5. DATA & TIMER
+// 5. DYNAMIC DATA
 const p = new URLSearchParams(window.location.search);
 document.getElementById('u-names').innerText = (p.get('bey') || 'Kamran') + " & " + (p.get('gelin') || 'Leyla');
 document.getElementById('u-date').innerText = (p.get('tarix') || '25.01.2026').split('.').join(' . ');
-const target = new Date("Jan 25, 2026 18:00:00").getTime();
-setInterval(() => {
-    const d = target - new Date().getTime();
-    document.getElementById('days').innerText = String(Math.floor(d / 86400000)).padStart(2, '0');
-    document.getElementById('hours').innerText = String(Math.floor((d % 86400000) / 3600000)).padStart(2, '0');
-    document.getElementById('mins').innerText = String(Math.floor((d % 3600000) / 60000)).padStart(2, '0');
-    document.getElementById('secs').innerText = String(Math.floor((d % 60000) / 1000)).padStart(2, '0');
-}, 1000);
 </script>
 </body>
 </html>
