@@ -3,296 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Digital Invitation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <title>Masterpiece Digital Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238);
-            --dark-bg: #050505;
-            --overlay: rgba(0, 0, 0, 0.7);
+            --gold-grad: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238);
+            --dark: #000;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--dark-bg);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Montserrat', sans-serif;
-            perspective: 2500px;
-        }
+        /* Sinematik Arxa Fon */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
 
-        /* Sinematik Arxa Fon Animasiyası */
-        .background-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-            z-index: -2;
-        }
-
-        .ambient-light {
-            position: absolute; width: 150%; height: 150%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-            animation: pulse 8s infinite alternate;
-            z-index: -1;
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-25%, -25%) scale(1); opacity: 0.3; }
-            100% { transform: translate(-20%, -20%) scale(1.1); opacity: 0.6; }
-        }
-
-        /* 3D ZƏRF SİSTEMİ */
-        .scene {
-            position: relative;
-            width: 360px;
-            height: 250px;
-            transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .scene.is-open {
-            transform: translateY(120px) rotateX(-5deg);
-        }
-
-        /* Zərfin Əsas Hissəsi */
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #111;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
-            transform-style: preserve-3d;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        /* Zərfin Qapağı */
-        .flap {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #1a1a1a;
-            clip-path: polygon(0 0, 100% 0, 50% 55%);
-            z-index: 5;
-            transform-origin: top;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top: 2px solid var(--gold);
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-        }
-
-        .is-open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        /* LUXURY MÖHÜR (3D Effect) */
-        .wax-seal {
-            position: absolute;
-            top: 55%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px; height: 70px;
-            background: radial-gradient(circle, #a00, #600);
-            border-radius: 50%;
-            z-index: 6;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.7s ease;
+        /* 3D Giriş Bölməsi */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 2500px; }
+        
+        .envelope-wrapper {
+            position: relative; width: 360px; height: 240px;
+            transform-style: preserve-3d; transition: 1.5s cubic-bezier(0.2, 1, 0.3, 1);
             cursor: pointer;
         }
+        .is-open.envelope-wrapper { transform: translateY(180px) rotateX(-5deg); }
 
-        .wax-seal::after {
-            content: "⚜️";
-            color: var(--gold);
-            font-size: 30px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        .envelope-base { 
+            width: 100%; height: 100%; background: #0c0c0c; 
+            border: 1.5px solid rgba(212, 175, 55, 0.3); position: relative;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
         }
 
-        .is-open .wax-seal {
-            opacity: 0; transform: translate(-50%, -150%) scale(0.5); pointer-events: none;
+        .flap {
+            position: absolute; top: 0; width: 100%; height: 100%; background: #151515;
+            clip-path: polygon(0 0, 100% 0, 50% 55%); z-index: 5;
+            transform-origin: top; transition: 1s; border-top: 2px solid var(--gold);
         }
+        .is-open .flap { transform: rotateX(180deg); z-index: 1; }
 
-        /* PREMİUM DƏVƏTNAMƏ KARTI */
+        /* Möhür Animasiyası */
+        .wax-seal {
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+            width: 75px; height: 75px; background: radial-gradient(circle, #a00, #400);
+            border-radius: 50%; z-index: 6; display: flex; justify-content: center; align-items: center;
+            border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            transition: 0.6s; font-size: 32px;
+        }
+        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -150%) scale(0.5); }
+
+        /* Premium Vərəq (Card) */
         .card {
-            position: absolute;
-            top: 5%; left: 5%;
-            width: 90%; height: 90%;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
-                              linear-gradient(135deg, #ffffff 0%, #fcf9f0 100%);
-            z-index: 2;
-            padding: 5px;
-            transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1);
-            transform: translateY(0);
+            position: absolute; width: 94%; height: 94%; left: 3%; top: 3%;
+            background: #fff; background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
+                              linear-gradient(135deg, #fff 0%, #f4e8d1 100%);
+            padding: 30px; text-align: center; color: #1a1a1a; z-index: 2;
+            transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .is-open .card { 
+            transform: translateY(-400px) scale(1.15); height: 550px; 
+            z-index: 10; box-shadow: 0 60px 150px rgba(0,0,0,0.9);
         }
 
-        .card-border {
-            border: 2px solid var(--gold);
-            height: 100%;
-            padding: 25px 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+        .card h2 { 
+            font-family: 'Great Vibes', cursive; font-size: 50px; 
+            background: var(--gold-grad); -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; margin: 25px 0;
         }
 
-        .is-open .card {
-            transform: translateY(-320px) scale(1.1);
-            height: 500px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-            z-index: 10;
+        /* Taymer Sistemi */
+        .details-section { padding: 100px 20px; text-align: center; opacity: 0; transition: 3s; }
+        .reveal { opacity: 1; }
+
+        .timer { display: flex; justify-content: center; gap: 10px; margin: 40px 0; }
+        .timer-box { 
+            background: var(--glass); border: 1px solid var(--gold); 
+            padding: 15px; min-width: 75px; border-radius: 12px;
+            backdrop-filter: blur(15px); transition: 0.5s;
+        }
+        .timer-box span { display: block; font-size: 32px; color: var(--gold); font-weight: 900; }
+
+        /* Pro Qalereya (Floating Grid) */
+        .gallery-wrap { position: relative; height: 800px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .photo {
+            position: absolute; width: 280px; height: 400px; border: 8px solid #fff;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: 1.5s cubic-bezier(0.2, 1, 0.3, 1);
+            filter: sepia(0.3);
+        }
+        .photo img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Sürüşdürəndə Şəkillərin Dağılması */
+        .reveal .photo:nth-child(1) { transform: rotate(-15deg) translate(-100px, -50px); z-index: 1; }
+        .reveal .photo:nth-child(2) { transform: rotate(5deg) translate(0, 0); z-index: 3; width: 300px; height: 430px; }
+        .reveal .photo:nth-child(3) { transform: rotate(15deg) translate(100px, 50px); z-index: 2; }
+
+        /* Xəritə (Dark Pro) */
+        .map-container { 
+            width: 100%; height: 400px; border-radius: 30px; 
+            border: 1px solid var(--gold); overflow: hidden; 
+            filter: grayscale(1) invert(0.92) contrast(1.2); 
+            margin-top: 30px;
         }
 
-        /* TEXT STYLING - THE PRO LOOK */
-        .intro-text {
-            font-size: 10px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: #888;
-        }
+        .hint { position: absolute; bottom: 40px; color: var(--gold); font-size: 11px; letter-spacing: 6px; animation: bounce 2s infinite; font-weight: 300; }
+        @keyframes bounce { 0%,100%{transform:translateY(0);opacity:0.2;} 50%{transform:translateY(-15px);opacity:1;} }
 
-        .names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 48px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 15px 0;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
-        }
-
-        .date-container {
-            width: 100%;
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 15px 0;
-            margin: 10px 0;
-        }
-
-        .date-text {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 20px;
-            color: #443322;
-            font-weight: 700;
-        }
-
-        .location-text {
-            font-size: 11px;
-            color: #666;
-            line-height: 1.8;
-            letter-spacing: 1px;
-        }
-
-        /* INTERAKTİV DÜYMƏLƏR */
-        .btns-group {
-            opacity: 0;
-            transition: 1s ease 1s;
-            margin-top: 20px;
-        }
-
-        .is-open .btns-group { opacity: 1; }
-
-        .btn-gold {
-            background: var(--gold-gradient);
-            border: none;
-            padding: 10px 20px;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            color: #222;
-            text-decoration: none;
-            font-size: 10px;
-            border-radius: 2px;
-            box-shadow: 0 4px 15px rgba(179, 135, 40, 0.3);
-        }
-
-        /* CLICK HINT */
-        .instruction {
-            position: absolute;
-            bottom: -80px;
-            width: 100%;
-            text-align: center;
-            color: var(--gold);
-            font-size: 9px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(-10px); opacity: 1; }
-        }
-
-        /* MOBİL ÜÇÜN OPTİMİZASİYA */
-        @media (max-width: 400px) {
-            .scene { width: 300px; height: 210px; }
-            .is-open .card { transform: translateY(-280px) scale(1.1); height: 450px; }
-            .names { font-size: 38px; }
-        }
     </style>
 </head>
-<body>
+<body onclick="createHeart(event)">
 
-    <div class="background-container">
-        <div class="ambient-light"></div>
-    </div>
+<canvas id="bg-canvas"></canvas>
 
-    <div class="scene" id="scene" onclick="toggleInvitation()">
-        <div class="envelope">
+<section class="hero">
+    <div class="envelope-wrapper" id="env" onclick="openElite()">
+        <div class="envelope-base">
             <div class="flap"></div>
-            <div class="wax-seal"></div>
-            
+            <div class="wax-seal">⚜️</div>
             <div class="card">
-                <div class="card-border">
-                    <p class="intro-text">Sizi Xoş Günümüzə Dəvət Edirik</p>
-                    <h1 class="names" id="ui-names">Yüklənir...</h1>
-                    
-                    <div class="date-container">
-                        <div class="date-text" id="ui-date">00 . 00 . 2026</div>
-                    </div>
-
-                    <p class="location-text" id="ui-location">Məkan: "GOLDEN" Şadlıq Sarayı<br>Saat: 18:00</p>
-                    
-                    <div class="btns-group">
-                        <a href="#" class="btn-gold">MƏKANA BAX (MAPS)</a>
-                    </div>
+                <p style="letter-spacing: 5px;">WEDDING INVITATION</p>
+                <h2 id="u-names">Kamran & Leyla</h2>
+                <div style="border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); padding: 15px 0; margin: 20px 0;">
+                    <span id="u-date" style="font-family: 'Cinzel Decorative'; font-size: 20px; font-weight: 900;">25 . 01 . 2026</span>
                 </div>
+                <p style="color: var(--gold); font-weight: 600;">SİZİ GÖZLƏYİRİK</p>
             </div>
         </div>
-        <div class="instruction" id="hint">AÇMAQ ÜÇÜN TOXUNUN</div>
+    </div>
+    <div class="hint" id="hint-text">DƏVƏTNAMƏNİ AÇIN</div>
+</section>
+
+<div class="details-section" id="details">
+    <h3 style="font-family: 'Cinzel Decorative'; letter-spacing: 8px; color: var(--gold);">GÜNLƏRİ SAYIRIQ</h3>
+    <div class="timer">
+        <div class="timer-box"><span id="days">00</span>GÜN</div>
+        <div class="timer-box"><span id="hours">00</span>SAAT</div>
+        <div class="timer-box"><span id="mins">00</span>DƏQ</div>
+        <div class="timer-box"><span id="secs">00</span>SAN</div>
     </div>
 
-    <audio id="audioTrack" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
+    <div class="gallery-wrap">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800"></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800"></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800"></div>
+    </div>
 
-    <script>
-        let isOpen = false;
-        const scene = document.getElementById('scene');
-        const audio = document.getElementById('audioTrack');
-        const hint = document.getElementById('hint');
+    <div style="padding: 50px 20px;">
+        <h3 style="font-family: 'Cinzel Decorative'; color: var(--gold);">MƏKAN</h3>
+        <p id="u-location" style="margin: 20px 0; letter-spacing: 3px; font-weight: 200;">"GOLDEN PALACE" - SUMQAYIT</p>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3029.0!2d49.6!3d40.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDMwJzAwLjAiTiA0OcKwMzYnMDAuMCJF!5e0!3m2!1sen!2saz!4v1610000000000!5m2!1sen!2saz" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
 
-        function toggleInvitation() {
-            if (!isOpen) {
-                scene.classList.add('is-open');
-                audio.play().catch(e => console.log("Audio play blocked by browser"));
-                hint.style.display = 'none';
-                isOpen = true;
-            }
+    <div style="height: 200px; display: flex; justify-content: center; align-items: center;">
+        <p style="font-family: 'Great Vibes'; font-size: 45px; color: var(--gold);">Təşrifiniz bizi sevindirər...</p>
+    </div>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// 1. PARTICLES & INTERACTION
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+let particles = [];
+
+class Particle {
+    constructor(x, y, isHeart = false) {
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || canvas.height + 50;
+        this.size = Math.random() * (isHeart ? 20 : 3) + 1;
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
+        this.isHeart = isHeart;
+    }
+    update() {
+        this.y -= this.speedY;
+        if (this.y < -20) this.y = canvas.height + 20;
+    }
+    draw() {
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+        ctx.beginPath();
+        if (this.isHeart) {
+            ctx.font = `${this.size}px Arial`;
+            ctx.fillText("✨", this.x, this.y);
+        } else {
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
+    }
+}
 
-        // DİNAMİK MƏLUMAT SİSTEMİ (Linkdən oxuyur)
-        const urlParams = new URLSearchParams(window.location.search);
-        const bey = urlParams.get('bey') || "Kamran";
-        const gelin = urlParams.get('gelin') || "Leyla";
-        const tarix = urlParams.get('tarix') || "25.01.2026";
-        const mekan = urlParams.get('mekan') || "Sərin Şadlıq Sarayı";
+function initParticles() { for (let i = 0; i < 100; i++) particles.push(new Particle()); }
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+}
+initParticles(); animate();
 
-        document.getElementById('ui-names').innerText = bey + " & " + gelin;
-        document.getElementById('ui-date').innerText = tarix.replace(/\./g, " . ");
-        document.getElementById('ui-location').innerHTML = `Məkan: "${mekan}"<br>Saat: 18:00`;
-    </script>
+// 2. OPEN EXPERIENCE
+function openElite() {
+    document.getElementById('env').classList.add('is-open');
+    document.getElementById('details').classList.add('reveal');
+    document.getElementById('bg-music').play();
+    document.getElementById('hint-text').innerText = "AŞAĞIYA DOĞRU SÜRÜŞDÜRÜN ⬇️";
+    setTimeout(() => { window.scrollTo({ top: 650, behavior: 'smooth' }); }, 2500);
+}
+
+// 3. TOUCH INTERACTION (Heart effect)
+function createHeart(e) {
+    for (let i = 0; i < 5; i++) {
+        particles.push(new Particle(e.clientX, e.clientY, true));
+    }
+}
+
+// 4. DYNAMIC DATA
+const p = new URLSearchParams(window.location.search);
+document.getElementById('u-names').innerText = (p.get('bey') || 'Kamran') + " & " + (p.get('gelin') || 'Leyla');
+document.getElementById('u-date').innerText = (p.get('tarix') || '25.01.2026').split('.').join(' . ');
+if (p.get('mekan')) document.getElementById('u-location').innerText = p.get('mekan');
+
+// 5. COUNTDOWN
+const target = new Date("Jan 25, 2026 18:00:00").getTime();
+setInterval(() => {
+    const d = target - new Date().getTime();
+    document.getElementById('days').innerText = String(Math.floor(d / 86400000)).padStart(2, '0');
+    document.getElementById('hours').innerText = String(Math.floor((d % 86400000) / 3600000)).padStart(2, '0');
+    document.getElementById('mins').innerText = String(Math.floor((d % 3600000) / 60000)).padStart(2, '0');
+    document.getElementById('secs').innerText = String(Math.floor((d % 60000) / 1000)).padStart(2, '0');
+}, 1000);
+</script>
 </body>
 </html>
