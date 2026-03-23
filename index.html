@@ -52,5 +52,17 @@
         <p class="tap">Açmaq üçün toxunun</p>
     </div>
 
+<script>
+    // Linkdəki parametrləri oxumaq üçün funksiya
+    const urlParams = new URLSearchParams(window.location.search);
+    const beyName = urlParams.get('bey') || "Bəy";
+    const gelinName = urlParams.get('gelin') || "Gəlin";
+    const toyTarixi = urlParams.get('tarix') || "25.01.2026";
+
+    // Səhifədəki yazıları yeniləyirik
+    document.getElementById('user-names').innerText = beyName + " & " + gelinName;
+    document.getElementById('user-date').innerText = "— " + toyTarixi + " —";
+</script>
+    
 </body>
 </html>
