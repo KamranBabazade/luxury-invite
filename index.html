@@ -1,217 +1,155 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Masterpiece Digital Invitation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #d4af37;
-            --glass: rgba(255, 255, 255, 0.07);
-            --dark: #000;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ultra Pro Cinematic Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#d4af37;
+  --dark:#000;
+  --glass:rgba(255,255,255,0.07);
+  --red:#8b0000;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden;}
 
-        /* ✨ ANIMATED BACKGROUND */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+/* CANVAS BACKGROUND */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;}
 
-        /* ✉️ 3D ENVELOPE SECTION */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 2000px; }
-        
-        .envelope-container {
-            position: relative; width: 340px; height: 230px;
-            transform-style: preserve-3d; transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-        .envelope-container.is-open { transform: translateY(120px) rotateX(-10deg); }
+/* HERO / ENVELOPE */
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;perspective:2200px;position:relative;}
+.envelope-container{position:relative;width:380px;height:250px;transform-style:preserve-3d;cursor:pointer;transition:1.5s;}
+.envelope-container.is-open{transform:translateY(150px) rotateX(-10deg);}
+.envelope-base{width:100%;height:100%;background:#111;border:2px solid var(--gold);position:relative;box-shadow:0 40px 100px rgba(0,0,0,0.8);}
+.flap{position:absolute;top:0;width:100%;height:100%;background:#1a1a1a;clip-path:polygon(0 0,100% 0,50% 55%);z-index:5;transform-origin:top;transition:1s;}
+.is-open .flap{transform:rotateX(180deg);z-index:1;}
+.wax-seal{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:radial-gradient(circle,#800,#400);border-radius:50%;z-index:6;display:flex;justify-content:center;align-items:center;border:2px solid var(--gold);box-shadow:0 0 20px var(--gold);transition:0.5s;font-size:30px;}
+.is-open .wax-seal{opacity:0;transform:translate(-50%,-100%) scale(0.5);}
 
-        .envelope-base { width: 100%; height: 100%; background: #111; border: 1px solid var(--gold); position: relative; }
-        .flap { 
-            position: absolute; top: 0; width: 100%; height: 100%; background: #1a1a1a;
-            clip-path: polygon(0 0, 100% 0, 50% 55%); z-index: 5;
-            transform-origin: top; transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top: 2px solid var(--gold);
-        }
-        .is-open .flap { transform: rotateX(180deg); z-index: 1; }
+/* CARD */
+.card{position:absolute;width:92%;height:92%;left:4%;top:4%;background:#fff;background-image:linear-gradient(135deg,#fff 0%,#f4e8d1 100%);padding:30px;text-align:center;color:#222;z-index:2;transition:1.2s;}
+.is-open .card{transform:translateY(-380px) scale(1.15);height:500px;z-index:10;box-shadow:0 50px 120px rgba(0,0,0,0.9);}
+.card h2{font-family:'Great Vibes',cursive;font-size:45px;color:#443322;margin:20px 0;opacity:0;transform:translateY(30px);transition:all 1s ease;}
+.card p{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#888;opacity:0;transform:translateY(30px);transition:all 1s ease;}
+.is-open .card h2,.is-open .card p{opacity:1;transform:translateY(0);}
 
-        .wax-seal {
-            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-            width: 70px; height: 70px; background: radial-gradient(circle, #800, #400);
-            border-radius: 50%; z-index: 6; display: flex; justify-content: center; align-items: center;
-            border: 2px solid var(--gold); box-shadow: 0 0 20px var(--gold); transition: 0.5s; font-size: 30px;
-        }
-        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -100%) scale(0.5); }
+/* COUNTDOWN */
+.countdown-section{padding:100px 20px;text-align:center;opacity:0;transition:2s;}
+.reveal{opacity:1;}
+.timer{display:flex;justify-content:center;gap:15px;margin-top:30px;}
+.timer-box{background:var(--glass);border:1px solid var(--gold);padding:15px;min-width:80px;backdrop-filter:blur(10px);border-radius:10px;transition:0.3s;}
+.timer-box:hover{transform:scale(1.1);box-shadow:0 0 20px var(--gold);}
+.timer-box span{display:block;font-size:35px;color:var(--gold);font-weight:900;font-family:'Cinzel Decorative';}
 
-        /* 📜 THE CARD */
-        .card {
-            position: absolute; width: 92%; height: 92%; left: 4%; top: 4%;
-            background: #fff; background-image: linear-gradient(135deg, #fff 0%, #f4e8d1 100%);
-            z-index: 2; padding: 30px; text-align: center; color: #222;
-            transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .is-open .card { transform: translateY(-350px) scale(1.1); height: 500px; z-index: 10; box-shadow: 0 40px 100px rgba(0,0,0,0.9); }
+/* GALLERY */
+.gallery-container{position:relative;height:600px;padding:50px 0;overflow:hidden;}
+.gallery-card{position:absolute;width:250px;height:350px;border:5px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,0.5);left:50%;top:50%;transform:translate(-50%,-50%) rotate(0deg);transition:1s;}
+.reveal .gallery-card:nth-child(1){transform:translate(-140%,-50%) rotate(-10deg);}
+.reveal .gallery-card:nth-child(2){transform:translate(-40%,-55%) rotate(5deg);z-index:5;}
+.reveal .gallery-card:nth-child(3){transform:translate(30%,-45%) rotate(15deg);}
+.gallery-card img{width:100%;height:100%;object-fit:cover;}
 
-        .card h2 { font-family: 'Great Vibes', cursive; font-size: 45px; color: #443322; margin: 20px 0; }
-        .card p { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #888; }
+/* LOCATION */
+.location-box{padding:50px 20px;text-align:center;}
+.map-frame{width:100%;height:350px;border-radius:20px;border:1px solid var(--gold);overflow:hidden;margin-top:20px;}
 
-        /* ⏳ DYNAMIC COUNTDOWN */
-        .countdown-section { padding: 100px 20px; text-align: center; opacity: 0; transition: 2s; }
-        .reveal { opacity: 1; }
+/* HINT */
+.hint{position:absolute;bottom:50px;color:var(--gold);font-size:10px;letter-spacing:5px;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);opacity:0.3;}50%{transform:translateY(-10px);opacity:1;}}
 
-        .timer { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
-        .timer-box { 
-            background: var(--glass); border: 1px solid var(--gold); 
-            padding: 15px; min-width: 80px; backdrop-filter: blur(10px);
-            border-radius: 10px; transition: 0.3s;
-        }
-        .timer-box:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--gold); }
-        .timer-box span { display: block; font-size: 35px; color: var(--gold); font-weight: 900; font-family: 'Cinzel Decorative'; }
-
-        /* 📸 SCATTER GALLERY (Maraqlı şəkillər) */
-        .gallery-container { position: relative; height: 600px; padding: 50px 0; overflow: hidden; }
-        .gallery-card {
-            position: absolute; width: 250px; height: 350px; border: 5px solid #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); left: 50%; top: 50%;
-            transform: translate(-50%, -50%) rotate(0deg); transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .reveal .gallery-card:nth-child(1) { transform: translate(-120%, -50%) rotate(-10deg); }
-        .reveal .gallery-card:nth-child(2) { transform: translate(-50%, -55%) rotate(5deg); z-index: 5; }
-        .reveal .gallery-card:nth-child(3) { transform: translate(20%, -45%) rotate(15deg); }
-
-        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* 📍 LOCATION */
-        .location-box { padding: 50px 20px; text-align: center; }
-        .map-frame { width: 100%; height: 350px; border-radius: 20px; border: 1px solid var(--gold); overflow: hidden; margin-top: 20px; }
-
-        /* 🖱️ HINT */
-        .hint { position: absolute; bottom: 50px; color: var(--gold); font-size: 10px; letter-spacing: 5px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); opacity: 0.3; } 50% { transform: translateY(-10px); opacity: 1; } }
-
-    </style>
+</style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+<canvas id="bg-canvas"></canvas>
 
-    <section class="hero">
-        <div class="envelope-container" id="env" onclick="openMagic()">
-            <div class="envelope-base">
-                <div class="flap"></div>
-                <div class="wax-seal">⚜️</div>
-                <div class="card">
-                    <p>Wedding Day</p>
-                    <h2 id="u-names">Kamran & Leyla</h2>
-                    <div style="border-top: 1px solid var(--gold); padding: 10px 0; margin: 15px 0;">
-                        <span id="u-date" style="font-family: 'Cinzel Decorative'; font-weight: 700;">25 . 01 . 2026</span>
-                    </div>
-                    <p style="color: var(--gold); font-size: 9px;">Aşağı sürüşdürün</p>
-                </div>
-            </div>
-        </div>
-        <div class="hint" id="hint">TOXUNUN VƏ AÇIN</div>
-    </section>
+<section class="hero">
+<div class="envelope-container" id="env" onclick="openPro()">
+<div class="envelope-base">
+<div class="flap"></div>
+<div class="wax-seal">⚜️</div>
+<div class="card">
+<p>Wedding Day</p>
+<h2 id="u-names">Kamran & Leyla</h2>
+<div style="border-top:1px solid var(--gold);padding:10px 0;margin:15px 0;">
+<span id="u-date" style="font-family:'Cinzel Decorative';font-weight:700;">25 . 01 . 2026</span>
+</div>
+<p style="color:var(--gold);font-size:9px;">Aşağı sürüşdürün</p>
+</div>
+</div>
+</div>
+<div class="hint" id="hint">TOXUNUN VƏ AÇIN</div>
+</section>
 
-    <div class="countdown-section" id="details">
-        <h2 style="font-family: 'Cinzel Decorative'; letter-spacing: 5px; color: var(--gold);">TOYA QALAN ZAMAN</h2>
-        <div class="timer">
-            <div class="timer-box"><span id="days">00</span>GÜN</div>
-            <div class="timer-box"><span id="hours">00</span>SAAT</div>
-            <div class="timer-box"><span id="mins">00</span>DƏQ</div>
-            <div class="timer-box"><span id="secs">00</span>SAN</div>
-        </div>
+<div class="countdown-section" id="details">
+<h2 style="font-family:'Cinzel Decorative';letter-spacing:5px;color:var(--gold);">TOYA QALAN ZAMAN</h2>
+<div class="timer">
+<div class="timer-box"><span id="days">00</span>GÜN</div>
+<div class="timer-box"><span id="hours">00</span>SAAT</div>
+<div class="timer-box"><span id="mins">00</span>DƏQ</div>
+<div class="timer-box"><span id="secs">00</span>SAN</div>
+</div>
 
-        <div class="gallery-container">
-            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600"></div>
-            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600"></div>
-            <div class="gallery-card"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600"></div>
-        </div>
+<div class="gallery-container">
+<div class="gallery-card"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600"></div>
+<div class="gallery-card"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600"></div>
+<div class="gallery-card"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600"></div>
+</div>
 
-        <div class="location-box">
-            <h2 style="font-family: 'Cinzel Decorative'; color: var(--gold);">MƏKAN</h2>
-            <p id="u-location" style="margin: 15px 0; letter-spacing: 2px;">GOLDEN PALACE - SUMQAYIT</p>
-            <div class="map-frame">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48473.14151322197!2d49.6335123!3d40.5891395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x403096dcd0923f6b%3A0xdf454612d0f4d36e!2sSumqayit%2C%20Azerbaijan!5e0!3m2!1sen!2s!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        </div>
+<div class="location-box">
+<h2 style="font-family:'Cinzel Decorative';color:var(--gold);">MƏKAN</h2>
+<p id="u-location" style="margin:15px 0;letter-spacing:2px;">GOLDEN PALACE - SUMQAYIT</p>
+<div class="map-frame">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48473.14151322197!2d49.6335123!3d40.5891395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x403096dcd0923f6b%3A0xdf454612d0f4d36e!2sSumqayit%2C%20Azerbaijan!5e0!3m2!1sen!2s!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</div>
+</div>
 
-        <div style="padding: 100px 0;">
-            <p style="font-family: 'Great Vibes'; font-size: 40px; color: var(--gold); text-shadow: 0 0 10px var(--gold);">Gözləyirik...</p>
-        </div>
-    </div>
+<div style="padding:100px 0;">
+<p style="font-family:'Great Vibes';font-size:40px;color:var(--gold);text-shadow:0 0 10px var(--gold);">Gözləyirik...</p>
+</div>
+</div>
 
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+<audio id="music" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        // 🎨 BACKGROUND PARTICLES (Canvas)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let particles = [];
+<script>
+// PARTICLES CANVAS
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+class Particle{
+constructor(){this.x=Math.random()*canvas.width;this.y=canvas.height+Math.random()*100;this.size=Math.random()*3+1;this.speedY=Math.random()*1+0.5;this.color=`rgba(212,175,55,${Math.random()*0.5})`;}
+update(){this.y-=this.speedY;if(this.y<-10)this.y=canvas.height+10;}
+draw(){ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+}
+for(let i=0;i<100;i++)particles.push(new Particle());
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+animate();
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 100;
-                this.size = Math.random() * 3 + 1;
-                this.speedY = Math.random() * 1 + 0.5;
-                this.color = `rgba(212, 175, 55, ${Math.random() * 0.5})`;
-            }
-            update() {
-                this.y -= this.speedY;
-                if (this.y < -10) this.y = canvas.height + 10;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+// OPEN MAGIC
+function openPro(){
+document.getElementById('env').classList.add('is-open');
+document.getElementById('details').classList.add('reveal');
+document.getElementById('music').play();
+document.getElementById('hint').innerText="AŞAĞI SÜRÜŞDÜRÜN ⬇️";
+setTimeout(()=>{window.scrollTo({top:600,behavior:'smooth'});},2000);
+}
 
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
+// DYNAMIC CONTENT
+const params=new URLSearchParams(window.location.search);
+document.getElementById('u-names').innerText=(params.get('bey')||'Kamran')+" & "+(params.get('gelin')||'Leyla');
+document.getElementById('u-date').innerText=(params.get('tarix')||'25.01.2026').split('.').join(' . ');
+if(params.get('mekan'))document.getElementById('u-location').innerText=params.get('mekan');
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // 🪄 OPEN EXPERIENCE
-        function openMagic() {
-            document.getElementById('env').classList.add('is-open');
-            document.getElementById('details').classList.add('reveal');
-            document.getElementById('music').play();
-            document.getElementById('hint').innerText = "AŞAĞI SÜRÜŞDÜRÜN ⬇️";
-            
-            setTimeout(() => {
-                window.scrollTo({ top: 550, behavior: 'smooth' });
-            }, 2000);
-        }
-
-        // 🔗 DYNAMIC CONTENT
-        const params = new URLSearchParams(window.location.search);
-        document.getElementById('u-names').innerText = (params.get('bey') || 'Kamran') + " & " + (params.get('gelin') || 'Leyla');
-        document.getElementById('u-date').innerText = (params.get('tarix') || '25.01.2026').split('.').join(' . ');
-        if(params.get('mekan')) document.getElementById('u-location').innerText = params.get('mekan');
-
-        // ⏰ FLIVE COUNTDOWN
-        const target = new Date("Jan 25, 2026 18:00:00").getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const d = target - now;
-            document.getElementById('days').innerText = String(Math.floor(d / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById('hours').innerText = String(Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-            document.getElementById('mins').innerText = String(Math.floor((d % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            document.getElementById('secs').innerText = String(Math.floor((d % (1000 * 60)) / 1000)).padStart(2, '0');
-        }, 1000);
-    </script>
+// COUNTDOWN
+const target=new Date("Jan 25,2026 18:00:00").getTime();
+setInterval(()=>{const now=new Date().getTime();const d=target-now;document.getElementById('days').innerText=String(Math.floor(d/(1000*60*60*24))).padStart(2,'0');document.getElementById('hours').innerText=String(Math.floor((d%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');document.getElementById('mins').innerText=String(Math.floor((d%(1000*60*60))/(1000*60))).padStart(2,'0');document.getElementById('secs').innerText=String(Math.floor((d%(1000*60))/1000)).padStart(2,'0');},1000);
+</script>
 </body>
 </html>
