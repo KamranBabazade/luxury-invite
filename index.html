@@ -3,30 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Luxury Digital Invitation | Kamran & Leyla</title>
+    <title>Kamran & Leyla | Wedding 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --gold-grad: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238);
-            --dark: #000;
-            --glow: 0 0 25px rgba(212, 175, 55, 0.6);
-        }
-
+        :root { --gold: #d4af37; --gold-grad: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238); --dark: #000; }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; }
+        
         /* ✨ BG ANIMATION */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #111 0%, #000 100%); }
 
         /* 🎭 HERO SECTION */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 2500px; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; perspective: 2000px; padding: 10px; }
         
+        /* ENVELOPE - RESPONSIVE SIZE */
         .envelope-wrapper {
-            position: relative; width: 360px; height: 240px;
-            transform-style: preserve-3d; transition: transform 0.7s ease-out; cursor: pointer;
+            position: relative; width: 95vw; max-width: 400px; height: 260px;
+            transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer;
         }
-        .envelope-wrapper.is-open { transform: translateY(200px) rotateX(-5deg) !important; }
+        .envelope-wrapper.is-open { transform: translateY(180px) rotateX(-5deg) !important; }
 
         .envelope-base { 
             width: 100%; height: 100%; background: #0c0c0c; border: 1px solid rgba(212, 175, 55, 0.4); 
@@ -43,199 +39,171 @@
 
         .wax-seal {
             position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-            width: 85px; height: 85px; background: radial-gradient(circle, #b00, #400);
+            width: 80px; height: 80px; background: radial-gradient(circle, #b00, #400);
             border-radius: 50%; z-index: 6; display: flex; justify-content: center; align-items: center;
-            border: 2.5px solid var(--gold); box-shadow: var(--glow); transition: 0.6s; font-size: 38px;
+            border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(212,175,55,0.6); transition: 0.6s; font-size: 35px;
         }
-        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -180%) scale(0.2); }
+        .is-open .wax-seal { opacity: 0; transform: translate(-50%, -180%) scale(0); }
 
-        /* 📜 THE CARD */
+        /* 📜 THE CARD - AUTO SCALING */
         .card {
             position: absolute; width: 94%; height: 94%; left: 3%; top: 3%;
             background: #fff; background-image: linear-gradient(135deg, #ffffff 0%, #f4e8d1 100%);
-            padding: 30px; text-align: center; color: #1a1a1a; z-index: 2;
+            padding: 25px; text-align: center; color: #1a1a1a; z-index: 2;
             transition: 1.8s cubic-bezier(0.19, 1, 0.22, 1); border: 1px solid var(--gold);
         }
-        .is-open .card { transform: translateY(-440px) scale(1.15); height: 600px; z-index: 10; box-shadow: 0 80px 200px rgba(0,0,0,1); }
+        .is-open .card { 
+            transform: translateY(-460px) scale(1.05); height: 620px; 
+            z-index: 10; box-shadow: 0 80px 150px rgba(0,0,0,0.9); 
+        }
 
         .card h2 { 
-            font-family: 'Great Vibes', cursive; font-size: 56px; 
+            font-family: 'Great Vibes', cursive; font-size: clamp(35px, 10vw, 55px); 
             background: var(--gold-grad); -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; margin: 25px 0;
+            -webkit-text-fill-color: transparent; margin: 20px 0;
         }
 
-        /* ⏳ TIMER */
-        .details-section { padding: 80px 20px; text-align: center; opacity: 0; transition: 3s; }
-        .reveal { opacity: 1; }
+        /* ⏳ TIMER SECTION */
+        .details-section { padding: 60px 15px; text-align: center; opacity: 0; transition: 2.5s; width: 100%; display:none; }
+        .reveal { opacity: 1; display: block; }
 
-        .timer { display: flex; justify-content: center; gap: 12px; margin: 40px 0; }
+        .timer { display: flex; justify-content: center; gap: 10px; margin: 40px 0; flex-wrap: wrap; }
         .timer-box { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--gold); 
-            padding: 20px; min-width: 85px; border-radius: 15px; backdrop-filter: blur(20px);
+            background: rgba(255,255,255,0.05); border: 1px solid var(--gold); 
+            padding: 15px; min-width: 80px; border-radius: 15px; backdrop-filter: blur(15px);
         }
-        .timer-box span { display: block; font-size: 34px; color: var(--gold); font-weight: 900; }
+        .timer-box span { display: block; font-size: 30px; color: var(--gold); font-weight: 900; }
+        .timer-box small { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* 📸 PHOTOS */
-        .gallery-wrap { position: relative; height: 850px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .photo {
-            position: absolute; width: 280px; height: 380px; border: 10px solid #fff;
-            box-shadow: 0 30px 60px rgba(0,0,0,1); transition: 2s;
+        /* 📸 RESPONSIVE PHOTO GALLERY */
+        .gallery {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; max-width: 1000px; margin: 50px auto; padding: 0 20px;
         }
-        .reveal .photo:nth-child(1) { transform: rotate(-10deg) translate(-100px, -50px); }
-        .reveal .photo:nth-child(2) { transform: rotate(5deg) z-index: 3; width: 310px; height: 420px; }
-        .reveal .photo:nth-child(3) { transform: rotate(15deg) translate(100px, 50px); }
+        .photo-frame {
+            background: #fff; padding: 10px; border: 1px solid var(--gold);
+            transform: rotate(calc(var(--r, 0deg))); transition: 0.5s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .photo-frame:hover { transform: rotate(0deg) scale(1.05); z-index: 5; }
+        .photo-frame img { width: 100%; height: 400px; object-fit: cover; }
 
-        /* 📍 LOCATION AREA */
-        .location-section { padding: 60px 20px; text-align: center; }
-        .map-frame { 
-            width: 100%; max-width: 800px; height: 400px; margin: 30px auto; 
-            border-radius: 30px; border: 2px solid var(--gold); overflow: hidden;
-            filter: grayscale(1) invert(0.9) contrast(1.2); box-shadow: var(--glow);
+        /* 📍 LOCATION & MAP */
+        .map-container { 
+            width: 100%; max-width: 800px; height: 350px; margin: 30px auto; 
+            border-radius: 25px; border: 2px solid var(--gold); overflow: hidden;
+            filter: grayscale(1) invert(0.9); box-shadow: 0 0 20px rgba(212,175,55,0.3);
         }
+
         .btn-rsvp {
-            display: inline-block; padding: 15px 40px; margin-top: 30px;
+            display: inline-block; padding: 15px 45px; margin-top: 25px;
             background: var(--gold-grad); color: #000; font-weight: 900;
-            text-decoration: none; border-radius: 50px; letter-spacing: 2px;
-            box-shadow: var(--glow); transition: 0.3s;
+            text-decoration: none; border-radius: 50px; text-transform: uppercase;
+            letter-spacing: 2px; box-shadow: 0 10px 30px rgba(212,175,55,0.4);
         }
-        .btn-rsvp:active { transform: scale(0.9); }
 
-        .hint { position: absolute; bottom: 40px; color: var(--gold); font-size: 11px; letter-spacing: 8px; animation: bounce 2s infinite; }
+        .hint { position: absolute; bottom: 40px; color: var(--gold); font-size: 11px; letter-spacing: 8px; animation: bounce 2s infinite; text-align: center; }
         @keyframes bounce { 0%,100%{transform:translateY(0);opacity:0.3;} 50%{transform:translateY(-15px);opacity:1;} }
+
+        @media (max-width: 600px) {
+            .is-open .card { transform: translateY(-400px) scale(1); height: 550px; }
+            .photo-frame img { height: 350px; }
+        }
     </style>
 </head>
-<body onmousemove="createSparkle(event)">
+<body onmousemove="drawTrail(event)" ontouchmove="drawTrail(event)">
 
 <canvas id="bg-canvas"></canvas>
 
-<section class="hero">
+<section class="hero" id="hero">
     <div class="envelope-wrapper" id="env" onclick="openElite()">
         <div class="envelope-base">
             <div class="flap"></div>
-            <div class="wax-seal">⚜️</div>
+            <div class="wax-seal">💍</div>
             <div class="card">
-                <p style="letter-spacing: 7px; font-size: 11px; color: #888;">TOY DƏVƏTNAMƏSİ</p>
-                <h2 id="u-names">Kamran & Leyla</h2>
-                <div style="border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); padding: 20px 0; margin: 25px 0;">
-                    <span style="font-family: 'Cinzel Decorative'; font-size: 24px; font-weight: 900;">25 . 03 . 2026</span>
+                <p style="letter-spacing: 5px; font-size: 11px;">TOY DƏVƏTNAMƏSİ</p>
+                <h2>Kamran & Leyla</h2>
+                <div style="border-top: 1.5px solid #d4af37; border-bottom: 1.5px solid #d4af37; padding: 15px 0; margin: 20px 0;">
+                    <span style="font-family: 'Cinzel Decorative'; font-size: 22px; font-weight: 900;">25 . 03 . 2026</span>
                 </div>
-                <p style="color: var(--gold); font-weight: 600; font-size: 13px;">BİZİMLƏ OLMANIZ XOŞDUR</p>
+                <p style="color: #d4af37; font-weight: 600; font-size: 13px;">BİZİMLƏ OLMANIZ XOŞDUR</p>
             </div>
         </div>
     </div>
-    <div class="hint" id="hint-text">DƏVƏTNAMƏNİ AÇIN</div>
+    <div class="hint" id="hint-text">AÇMAQ ÜÇÜN TOXUNUN</div>
 </section>
 
 <div class="details-section" id="details">
-    <h3 style="font-family: 'Cinzel Decorative'; letter-spacing: 12px; color: var(--gold);">GÜNLƏRİ SAYIRIQ</h3>
+    <h3 style="font-family: 'Cinzel Decorative'; letter-spacing: 10px; color: var(--gold); font-size: 20px;">GÜNLƏRİ SAYIRIQ</h3>
     <div class="timer">
-        <div class="timer-box"><span id="days">00</span>GÜN</div>
-        <div class="timer-box"><span id="hours">00</span>SAAT</div>
-        <div class="timer-box"><span id="mins">00</span>DƏQ</div>
-        <div class="timer-box"><span id="secs">00</span>SAN</div>
+        <div class="timer-box"><span id="days">00</span><small>GÜN</small></div>
+        <div class="timer-box"><span id="hours">00</span><small>SAAT</small></div>
+        <div class="timer-box"><span id="mins">00</span><small>DƏQ</small></div>
+        <div class="timer-box"><span id="secs">00</span><small>SAN</small></div>
     </div>
 
-    <div class="gallery-wrap">
-        <div class="photo"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800"></div>
-        <div class="photo"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800"></div>
-        <div class="photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800"></div>
+    <div class="gallery">
+        <div class="photo-frame" style="--r: -3deg;"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800" alt="Wedding 1"></div>
+        <div class="photo-frame" style="--r: 2deg;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" alt="Wedding 2"></div>
     </div>
 
-    <div class="location-section">
-        <h3 style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 5px;">MƏRASİM MƏKANI</h3>
-        <p style="margin: 20px 0; font-weight: 300; letter-spacing: 3px;">SUMQAYIT ŞƏHƏRİ, "GOLDEN PALACE" ŞADLIQ SARAYI</p>
-        <div class="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3027.683416753443!2d49.66440261540263!3d40.58170297934661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4030911765c9284d%3A0x633857e33e144a1e!2sGolden%20Palace%20Sumqayit!5e0!3m2!1sen!2saz!4v1700000000000!5m2!1sen!2saz" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <div style="padding: 60px 20px;">
+        <h3 style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 5px;">MƏKAN</h3>
+        <p style="margin: 20px 0; letter-spacing: 2px; font-weight: 300;">SUMQAYIT, "GOLDEN PALACE" ŞADLIQ SARAYI</p>
+        <div class="map-container">
+            <iframe src="http://googleusercontent.com/maps.google.com/7" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://wa.me/994000000000?text=Salam+Kamran,+dəvətnaməni+aldıq,+iştirak+edəcəyik!" class="btn-rsvp">İştirakı Təsdiqlə 💌</a>
+        <a href="https://wa.me/994000000000?text=Salam+Kamran,+dəvətnaməni+aldıq!" class="btn-rsvp">İştirakı Təsdiqlə 💌</a>
     </div>
 
-    <div style="padding: 100px 0;">
-        <p style="font-family: 'Great Vibes'; font-size: 55px; color: var(--gold); text-shadow: var(--glow);">Sizi gözləyirik...</p>
-    </div>
+    <p style="font-family: 'Great Vibes'; font-size: clamp(40px, 8vw, 60px); color: var(--gold); padding: 80px 0;">Sizi gözləyirik...</p>
 </div>
 
-<audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+<audio id="bg-music" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
 
 <script>
 // 1. PERFECT BACKWARDS TIMER (MARCH 25, 2026)
 const target = new Date("Mar 25, 2026 18:00:00").getTime();
-setInterval(() => {
+function update() {
     const d = target - new Date().getTime();
-    document.getElementById('days').innerText = String(Math.max(0, Math.floor(d / 86400000))).padStart(2, '0');
-    document.getElementById('hours').innerText = String(Math.max(0, Math.floor((d % 86400000) / 3600000))).padStart(2, '0');
-    document.getElementById('mins').innerText = String(Math.max(0, Math.floor((d % 3600000) / 60000))).padStart(2, '0');
-    document.getElementById('secs').innerText = String(Math.max(0, Math.floor((d % 60000) / 1000))).padStart(2, '0');
-}, 1000);
+    if (d < 0) return;
+    document.getElementById('days').innerText = String(Math.floor(d / 86400000)).padStart(2, '0');
+    document.getElementById('hours').innerText = String(Math.floor((d % 86400000) / 3600000)).padStart(2, '0');
+    document.getElementById('mins').innerText = String(Math.floor((d % 3600000) / 60000)).padStart(2, '0');
+    document.getElementById('secs').innerText = String(Math.floor((d % 60000) / 1000)).padStart(2, '0');
+}
+setInterval(update, 1000); update();
 
 // 2. BG PARTICLES
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-let particles = [];
-
+let parts = [];
 class Particle {
-    constructor() { this.reset(); }
-    reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedY = Math.random() * 0.5 + 0.2;
-        this.opacity = Math.random() * 0.5;
-    }
-    update() {
-        this.y -= this.speedY;
-        if (this.y < -10) this.y = canvas.height + 10;
-    }
-    draw() {
-        ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-    }
+    constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2; this.v = Math.random()*0.5; }
+    draw() { ctx.fillStyle="rgba(212,175,55,0.4)"; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); }
+    update() { this.y -= this.v; if(this.y < 0) this.y = canvas.height; }
 }
-for (let i = 0; i < 100; i++) particles.push(new Particle());
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
-}
-animate();
+for(let i=0; i<100; i++) parts.push(new Particle());
+function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); parts.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
 
-// 3. SPARKLE ON MOUSE
-function createSparkle(e) {
-    const s = document.createElement('div');
-    s.style.position = 'fixed';
-    s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
-    s.style.width = '4px'; s.style.height = '4px';
-    s.style.background = 'var(--gold)'; s.style.borderRadius = '50%';
-    s.style.pointerEvents = 'none'; s.style.boxShadow = 'var(--glow)';
-    document.body.appendChild(s);
-    let opa = 1;
-    let inter = setInterval(() => {
-        opa -= 0.05; s.style.opacity = opa;
-        if (opa <= 0) { clearInterval(inter); s.remove(); }
-    }, 50);
+// 3. INTERACTIVE TRAIL
+function drawTrail(e) {
+    const x = e.clientX || e.touches[0].clientX; const y = e.clientY || e.touches[0].clientY;
+    const d = document.createElement('div');
+    d.style.cssText = `position:fixed; left:${x}px; top:${y}px; width:5px; height:5px; background:#d4af37; border-radius:50%; pointer-events:none; z-index:999; box-shadow:0 0 10px #d4af37; transition:1s;`;
+    document.body.appendChild(d); setTimeout(() => { d.style.opacity = '0'; d.style.transform = 'scale(0)'; setTimeout(()=>d.remove(),1000); }, 100);
 }
 
-// 4. PARALLAX
-function handleParallax(e) {
-    if(document.getElementById('env').classList.contains('is-open')) return;
-    const x = ((e.clientX || e.touches[0].clientX) / window.innerWidth) - 0.5;
-    const y = ((e.clientY || e.touches[0].clientY) / window.innerHeight) - 0.5;
-    document.getElementById('env').style.transform = `rotateY(${x * 45}deg) rotateX(${-y * 45}deg)`;
-}
-document.addEventListener('mousemove', handleParallax);
-
-// 5. OPEN
+// 4. OPEN LOGIC
 function openElite() {
-    const env = document.getElementById('env');
-    if(env.classList.contains('is-open')) return;
-    env.classList.add('is-open');
-    document.getElementById('bg-music').play();
-    document.getElementById('details').classList.add('reveal');
-    document.getElementById('hint-text').innerText = "MƏKANA BAXIN ⬇️";
-    setTimeout(() => { window.scrollTo({ top: 750, behavior: 'smooth' }); }, 2500);
+    const env = document.getElementById('env'); if(env.classList.contains('is-open')) return;
+    env.classList.add('is-open'); document.getElementById('bg-music').play().catch(()=>{});
+    setTimeout(() => { 
+        document.getElementById('details').style.display = 'block'; 
+        setTimeout(()=>document.getElementById('details').classList.add('reveal'), 100);
+        document.getElementById('hint-text').innerText = "AŞAĞIYA SÜRÜŞDÜRÜN ⬇️";
+        window.scrollTo({ top: 600, behavior: 'smooth' });
+    }, 2000);
 }
 </script>
 </body>
