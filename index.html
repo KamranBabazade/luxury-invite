@@ -2,297 +2,114 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Digital Invitation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa8238);
-            --dark-bg: #050505;
-            --overlay: rgba(0, 0, 0, 0.7);
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Cinzel Decorative', serif; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            background-color: var(--dark-bg);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Montserrat', sans-serif;
-            perspective: 2500px;
-        }
-
-        /* Sinematik Arxa Fon Animasiyası */
-        .background-container {
+        /* Arxa fon qradiyenti (Videodakı şam effekti üçün tünd hava) */
+        .background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-            z-index: -2;
-        }
-
-        .ambient-light {
-            position: absolute; width: 150%; height: 150%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-            animation: pulse 8s infinite alternate;
+            background: radial-gradient(circle, rgba(60,40,15,1) 0%, rgba(0,0,0,1) 100%);
             z-index: -1;
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-25%, -25%) scale(1); opacity: 0.3; }
-            100% { transform: translate(-20%, -20%) scale(1.1); opacity: 0.6; }
-        }
-
         /* 3D ZƏRF SİSTEMİ */
-        .scene {
-            position: relative;
-            width: 360px;
-            height: 250px;
+        .wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; perspective: 1500px; }
+
+        .envelope-wrapper {
+            width: 350px; height: 250px;
             transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .scene.is-open {
-            transform: translateY(120px) rotateX(-5deg);
-        }
-
-        /* Zərfin Əsas Hissəsi */
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #111;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
-            transform-style: preserve-3d;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        /* Zərfin Qapağı */
-        .flap {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #1a1a1a;
-            clip-path: polygon(0 0, 100% 0, 50% 55%);
-            z-index: 5;
-            transform-origin: top;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top: 2px solid var(--gold);
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-        }
-
-        .is-open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        /* LUXURY MÖHÜR (3D Effect) */
-        .wax-seal {
-            position: absolute;
-            top: 55%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px; height: 70px;
-            background: radial-gradient(circle, #a00, #600);
-            border-radius: 50%;
-            z-index: 6;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.7s ease;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
         }
 
-        .wax-seal::after {
-            content: "⚜️";
-            color: var(--gold);
-            font-size: 30px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        .envelope {
+            position: relative; width: 100%; height: 100%; background: #1a1a1a;
+            border: 1px solid #c5a059; box-shadow: 0 30px 60px rgba(0,0,0,1);
+            transform-style: preserve-3d;
         }
 
-        .is-open .wax-seal {
-            opacity: 0; transform: translate(-50%, -150%) scale(0.5); pointer-events: none;
+        /* Zərfin Qapağı (Wax Seal olan hissə) */
+        .flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #222;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            z-index: 5; transform-origin: top;
+            transition: transform 0.8s; border-top: 1px solid #c5a059;
         }
 
-        /* PREMİUM DƏVƏTNAMƏ KARTI */
-        .card {
-            position: absolute;
-            top: 5%; left: 5%;
-            width: 90%; height: 90%;
-            background: #fff;
-            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
-                              linear-gradient(135deg, #ffffff 0%, #fcf9f0 100%);
-            z-index: 2;
-            padding: 5px;
-            transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1);
-            transform: translateY(0);
+        /* Qızılı Möhür (Wax Seal) */
+        .seal {
+            position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 60px; background: #8b0000; border-radius: 50%;
+            border: 2px solid #5a0000; z-index: 6; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            color: #d4af37; font-size: 24px; transition: 0.5s;
         }
 
-        .card-border {
-            border: 2px solid var(--gold);
-            height: 100%;
-            padding: 25px 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+        /* Açılanda animasiyalar */
+        .open .envelope-wrapper { transform: translateY(100px); }
+        .open .flap { transform: rotateX(180deg); }
+        .open .seal { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+
+        /* Daxildəki Dəvətnamə */
+        .letter {
+            position: absolute; bottom: 10px; left: 10px; width: 330px; height: 230px;
+            background: #fff; background-image: linear-gradient(135deg, #fff 0%, #f9f4e8 100%);
+            padding: 30px; box-sizing: border-box; text-align: center;
+            z-index: 1; transition: transform 1s ease;
+            border: 1px solid #d4af37;
         }
 
-        .is-open .card {
-            transform: translateY(-320px) scale(1.1);
-            height: 500px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-            z-index: 10;
-        }
+        .open .letter { transform: translateY(-160px) scale(1.1); height: 350px; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
-        /* TEXT STYLING - THE PRO LOOK */
-        .intro-text {
-            font-size: 10px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: #888;
-        }
+        /* Yazı Stilləri - THE LUXURY LOOK */
+        h1 { font-family: 'Great Vibes', cursive; color: #8b6b4d; font-size: 42px; margin: 10px 0; }
+        p { font-size: 14px; letter-spacing: 2px; color: #333; }
+        .date { font-weight: bold; color: #c5a059; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
 
-        .names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 48px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 15px 0;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
-        }
+        .hint { position: absolute; bottom: 50px; color: #c5a059; font-size: 12px; letter-spacing: 3px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} }
 
-        .date-container {
-            width: 100%;
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 15px 0;
-            margin: 10px 0;
-        }
-
-        .date-text {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 20px;
-            color: #443322;
-            font-weight: 700;
-        }
-
-        .location-text {
-            font-size: 11px;
-            color: #666;
-            line-height: 1.8;
-            letter-spacing: 1px;
-        }
-
-        /* INTERAKTİV DÜYMƏLƏR */
-        .btns-group {
-            opacity: 0;
-            transition: 1s ease 1s;
-            margin-top: 20px;
-        }
-
-        .is-open .btns-group { opacity: 1; }
-
-        .btn-gold {
-            background: var(--gold-gradient);
-            border: none;
-            padding: 10px 20px;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            color: #222;
-            text-decoration: none;
-            font-size: 10px;
-            border-radius: 2px;
-            box-shadow: 0 4px 15px rgba(179, 135, 40, 0.3);
-        }
-
-        /* CLICK HINT */
-        .instruction {
-            position: absolute;
-            bottom: -80px;
-            width: 100%;
-            text-align: center;
-            color: var(--gold);
-            font-size: 9px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(-10px); opacity: 1; }
-        }
-
-        /* MOBİL ÜÇÜN OPTİMİZASİYA */
-        @media (max-width: 400px) {
-            .scene { width: 300px; height: 210px; }
-            .is-open .card { transform: translateY(-280px) scale(1.1); height: 450px; }
-            .names { font-size: 38px; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="background-container">
-        <div class="ambient-light"></div>
-    </div>
+    <div class="background"></div>
 
-    <div class="scene" id="scene" onclick="toggleInvitation()">
-        <div class="envelope">
-            <div class="flap"></div>
-            <div class="wax-seal"></div>
-            
-            <div class="card">
-                <div class="card-border">
-                    <p class="intro-text">Sizi Xoş Günümüzə Dəvət Edirik</p>
-                    <h1 class="names" id="ui-names">Yüklənir...</h1>
-                    
-                    <div class="date-container">
-                        <div class="date-text" id="ui-date">00 . 00 . 2026</div>
-                    </div>
-
-                    <p class="location-text" id="ui-location">Məkan: "GOLDEN" Şadlıq Sarayı<br>Saat: 18:00</p>
-                    
-                    <div class="btns-group">
-                        <a href="#" class="btn-gold">MƏKANA BAX (MAPS)</a>
-                    </div>
+    <div class="wrapper">
+        <div class="envelope-wrapper" id="env-wrap" onclick="openInvitation()">
+            <div class="envelope">
+                <div class="flap"></div>
+                <div class="seal">⚜️</div>
+                <div class="letter">
+                    <p>BİZ EVLƏNİRİK</p>
+                    <h1 id="names">Yüklənir...</h1>
+                    <div class="date" id="date">00.00.2026</div>
+                    <p style="font-size: 10px; margin-top: 20px;">Aşağı sürüşdürün ⬇️</p>
                 </div>
             </div>
         </div>
-        <div class="instruction" id="hint">AÇMAQ ÜÇÜN TOXUNUN</div>
+        <div class="hint" id="hint">AÇMAQ ÜÇÜN TOXUNUN</div>
     </div>
 
-    <audio id="audioTrack" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" src="toy-mahni.mp3" loop></audio>
 
     <script>
-        let isOpen = false;
-        const scene = document.getElementById('scene');
-        const audio = document.getElementById('audioTrack');
-        const hint = document.getElementById('hint');
-
-        function toggleInvitation() {
-            if (!isOpen) {
-                scene.classList.add('is-open');
-                audio.play().catch(e => console.log("Audio play blocked by browser"));
-                hint.style.display = 'none';
-                isOpen = true;
-            }
+        function openInvitation() {
+            const wrap = document.getElementById('env-wrap');
+            const music = document.getElementById('bgMusic');
+            wrap.classList.add('open');
+            document.getElementById('hint').style.display = 'none';
+            music.play().catch(e => console.log("Audio play error:", e));
         }
 
-        // DİNAMİK MƏLUMAT SİSTEMİ (Linkdən oxuyur)
-        const urlParams = new URLSearchParams(window.location.search);
-        const bey = urlParams.get('bey') || "Kamran";
-        const gelin = urlParams.get('gelin') || "Leyla";
-        const tarix = urlParams.get('tarix') || "25.01.2026";
-        const mekan = urlParams.get('mekan') || "Sərin Şadlıq Sarayı";
-
-        document.getElementById('ui-names').innerText = bey + " & " + gelin;
-        document.getElementById('ui-date').innerText = tarix.replace(/\./g, " . ");
-        document.getElementById('ui-location').innerHTML = `Məkan: "${mekan}"<br>Saat: 18:00`;
+        // Dinamik link idarəetməsi (Adlar üçün)
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('names').innerText = (params.get('bey') || 'Bəy') + " & " + (params.get('gelin') || 'Gəlin');
+        document.getElementById('date').innerText = params.get('tarix') || '25.01.2026';
     </script>
 </body>
 </html>
